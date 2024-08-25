@@ -4,7 +4,7 @@ on:
     workflow_dispatch:
         inputs:
             username:
-                description: 'The username of the user
+                description: 'The username of the user'
                 required: true
             favorite_color:
                 description: 'The favorite color of the user'
