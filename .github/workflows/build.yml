@@ -1,0 +1,31 @@
+on: push
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Collect Inputs
+      id: set-outputs
+      run: |
+        echo "user_name=${{ github.event.inputs.last_name }}" >> $GITHUB_OUTPUT
+        echo "favorite_color=${{ github.event.inputs.ugliest_color }}" >> $GITHUB_OUTPUT
+    outputs:
+      user_name: ${{ steps.set-outputs.outputs.user_name}}
+      favorite_color: ${{ steps.set-outputs.outputs.favorite_color}}
+  jobs2:
+    runs-on: ubuntu-latest
+    needs: collect-inputs
+    outputs:
+      greeting: ${{ steps.set-greeting.outputs.outputs.favorite_color}}
+    steps:
+      - name: Generate Greeting
+        id: set-greeting
+        run: |
+        USERNAME="${{ needs.collect-inputs.outputs.user_name }}"
+        GREETING="Hello, $USERNAME! Your favorite color is ${{ needs.collect-inputs.outputs.favorite_color }}
+        echo "greeting=$GREETING" >> $GITHUB_OUTPUT
+  job3:
+    runs-on: ubuntu-latest
+    needs: job2
+    steps:
+      - name: Display Greeting
+        run: echo ${{ needs.generate-greeting.outputs.greeting }}
