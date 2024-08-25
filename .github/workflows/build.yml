@@ -1,4 +1,19 @@
-on: push
+name: Greeting Workflow
+
+
+on:
+  workflow_dispatch:
+    inputs:
+      last_name:
+        description: 'Name of the user'
+        type: string
+        required: true
+        default: 'John Doe'
+        ugliest_color:
+        description: 'Favorite color of the user'
+        required: true
+        default: 'blue'
+        type: string
 jobs:
   job1:
     runs-on: ubuntu-latest
